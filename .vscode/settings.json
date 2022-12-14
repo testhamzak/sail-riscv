@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "sail.h": "c",
+        "riscv_platform.h": "c",
+        "riscv_platform_impl.h": "c",
+        "elf.h": "c",
+        "rts.h": "c",
+        "riscv_softfloat.h": "c"
+    }
+}

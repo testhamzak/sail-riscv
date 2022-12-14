@@ -142,7 +142,7 @@ function checked_mem_read forall 'n, 0 < 'n <= max_mem_access . (t : AccessType(
 
 /* PMP checks if enabled */
 function pmp_mem_read forall 'n, 0 < 'n <= max_mem_access . (t : AccessType(ext_access_type), p : Privilege, paddr : xlenbits, width : atom('n), aq : bool, rl : bool, res: bool, meta : bool) -> MemoryOpResult((bits(8 * 'n), mem_meta)) =
-  if   (~ (plat_enable_pmp ()))
+  if   (~ ((plat_enable_pmp ()) | (haveSmepmp())))
   then checked_mem_read(t, paddr, width, aq, rl, res, meta)
   else {
     match pmpCheck(paddr, width, t, p) {
@@ -267,7 +267,7 @@ function checked_mem_write forall 'n, 0 < 'n <= max_mem_access . (wk : write_kin
 
 /* PMP checks if enabled */
 function pmp_mem_write forall 'n, 0 < 'n <= max_mem_access . (wk: write_kind, paddr : xlenbits, width : atom('n), data: bits(8 * 'n), typ: AccessType(ext_access_type), priv: Privilege, meta: mem_meta) -> MemoryOpResult(bool) =
-  if   (~ (plat_enable_pmp ()))
+  if   (~ ((plat_enable_pmp ()) | (haveSmepmp())))
   then checked_mem_write(wk, paddr, width, data, meta)
   else {
     match pmpCheck(paddr, width, typ, priv) {
